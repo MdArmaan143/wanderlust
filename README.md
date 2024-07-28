@@ -1,2 +1,2 @@
 # airbnb-clone
-basic set-up done.
+soon.
