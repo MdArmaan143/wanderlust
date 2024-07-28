@@ -1,2 +1,2 @@
 # airbnb-clone
-soon.
+Discover your place at Airbnb.
