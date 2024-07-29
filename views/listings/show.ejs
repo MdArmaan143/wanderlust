@@ -12,7 +12,7 @@
            <b><%= listing.title %></b><br>
            <%= listing.title %><br>
            <%= listing.description %><br>
-           &#x20b9;<%= listing.price.toLocaleString("en-IN") %><br>
+           &#x20b9;<%= listing.price ? listing.price.toLocaleString("en-IN") : "N/A" %> /night<br>
            <%= listing.location %><br>
            <%= listing.country %>
           </p>
