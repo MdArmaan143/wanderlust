@@ -1,2 +1,2 @@
-# airbnb-clone
-Discover your place at Airbnb.
+# wanderlust
+Discover your place at my wanderlust.
