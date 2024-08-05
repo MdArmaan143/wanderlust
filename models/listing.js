@@ -21,7 +21,7 @@ const listingSchema = new schema ({
     reviews: [
         {
             type: schema.Types.ObjectId,
-            ref: "Review"
+            ref: "Review",
         },
     ],
 

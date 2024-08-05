@@ -32,7 +32,7 @@
         <form class="mb-3" method="POST" action="/listings/<%= listing.id %>/reviews" novalidate class="needs-validation">
             <div class="mb-3 mt-3">
                 <label for="rating" class="form-label">Rating</label>
-                <input type="range" min="1" max="5" id="rating" name="Review[rating]" class="form-range" >
+                <input type="range" min="1" max="5" id="rating" name="review[rating]" class="form-range" >
             </div>
             <div class="mb-3 mt-3">
                 <label for="comment" class="form-label">Comments</label>
@@ -50,4 +50,4 @@
     </div>
 </div>
 
-
+<script src="/js/script.js"></script>
