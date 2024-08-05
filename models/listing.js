@@ -1,6 +1,4 @@
 const mongoose = require("mongoose");
-const Review = require("./reviews");
-
 const schema = mongoose.Schema;
 
 
