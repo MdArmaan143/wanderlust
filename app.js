@@ -1,17 +1,13 @@
 const express = require("express");
 const app = express();
 const mongoose = require("mongoose");
-const Listing = require("./models/listing.js");
 const path = require("path");
 const methodOverride = require("method-override");
 const ejsMate = require("ejs-mate");
-const wrapAsync = require("./utils/wrapAsync.js");
 const ExpressError = require("./utils/ExpressError.js");
-const {listingSchema,reviewSchema} = require("./schema.js");
-const Review = require("./models/review.js");
-
 
 const listings = require("./routes/listing.js");
+const reviews = require("./routes/review.js");
 
 
 
@@ -32,56 +28,15 @@ app.use(methodOverride("_method"));
 app.engine('ejs', ejsMate);
 app.use(express.static(path.join(__dirname,"/public")));
 
-// app.get("/testListing",async (req,res) =>{
-//     let sampleListing = new Listing({
-//         title: "my new villa",
-//         description: "By the beach",
-//         price: 1200,
-//         location: "new delhi",
-//         country: "india",
-
-//     });
-//     await sampleListing.save();
-//     console.log("sample was saved");
-//     res.send("succesful testing");
-
-
-// });
 
 
 
-const validateReview = (req,res,next)=>{
-  let {error} = reviewSchema.validate(req.body);
-  
-  if(error){
-    let errMsg = error.details.map((el)=>el.message).join(",");
-    throw new ExpressError(400,errMsg);
-  }else{
-    next();
-  }
-};
 
-app.use("/listings",listings)
 
-//post reviews route
-app.post("/listings/:id/reviews",validateReview,wrapAsync(async(req,res)=>{
-  let listing = await Listing.findById(req.params.id);
-  let newReview = new Review (req.body.review);
-  listing.reviews.push(newReview);
+app.use("/listings",listings);
+app.use("/listings/:id/reviews",reviews);
 
-  await newReview.save();
-  await listing.save();
-  res.redirect(`/listings/${listing._id}`);
 
-}));
-//delete review route
-app.delete("/listings/:id/reviews/:reviewId",wrapAsync(async(req,res) =>{
-  let {id,reviewId} = req.params;
-await Listing.findByIdAndUpdate(id, {$pull: {review: reviewId }});
-    await Review.findByIdAndDelete(reviewId);
-  res.redirect(`/listings/ ${id}`);
-
-}));
 
 let port = 8080;
 
