@@ -1,6 +1,7 @@
 const mongoose = require("mongoose");
 const schema = mongoose.Schema;
 const Review = require("./review.js");
+const { ref } = require("joi");
 
 
 const listingSchema = new schema ({
@@ -23,6 +24,10 @@ const listingSchema = new schema ({
             ref: "Review",
         },
     ],
+    owner : {
+        type : schema.Types.ObjectId,
+        ref: "User",
+    },
 
 });
 listingSchema.post("findOneAndDelete",async(listing)=>{

@@ -1,9 +1,10 @@
-body{
-    font-family: 'Montserrat', sans-serif !important;
+body {
     font-family: 'Plus Jakarta Sans', sans-serif !important;
     display: flex;
     flex-direction: column;
     min-height: 100vh;
+
+
 }
 
 .container{
@@ -53,6 +54,8 @@ body{
     flex-wrap: wrap;
     justify-content: center;
     align-items: space-evenly;
+
+
 }
 
 
