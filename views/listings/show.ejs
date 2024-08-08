@@ -8,8 +8,13 @@
     <div class="card col-6 offset-3 show-card listing-card">
         <img src="<%= listing.image %>" class="card-img-top show-img" alt="listing_image">
         <div class="card-body">
-          <p class="card-text">Owned by <i><%= listing.owner.username %></i></p>
-
+            <% if(listing.owner){ %>
+                <p class="card-text mb-2">
+                    <i>
+                        Owned by : <%= listing.owner.username %>
+                    </i>
+                </p>
+                <% } %>
           <p class="card-text"> <%= listing.description %></p>
           <p class="card-text"> &#x20b9;<%= listing.price ? listing.price.toLocaleString("en-IN") : "N/A" %> /night</p>
           <p class="card-text"><%= listing.location %></p>
@@ -19,6 +24,7 @@
     </div>
 
     <br>
+    <% if(currUser && currUser._id.equals(listing.owner._id)){ %>
     <div class="btns">
         <a href="/listings/<%= listing._id %>/edit" class="btn btn-dark col-1 offset-3 edit-btn">Edit</a>
 
@@ -26,9 +32,13 @@
             <button class="btn btn-dark offset-5">Delete</button>
         </form>
     </div>
+    <% } %>
    
-    <div class="col-8 offset-3">
+
+   
+    <div class="col-8 offset-3 mb-3">
         <hr>
+        <% if(currUser) {%>
         <h4>Leave a Review</h4>        
         <form action="/listings/<%= listing._id %>/reviews" method="POST"  class="needs-validation" novalidate>
             <div class="mb-3 mt-3">
@@ -45,13 +55,16 @@
           </form>
           <hr>
 
+          <% } %>
+        
+
           <p><b>All Reviews</b></p>
           <div class="row">
           
             <% for(let review of listing.reviews) {%>
                 <div class="card col-5 ms-3 mb-3" >
                     <div class="card-body">
-                      <h5 class="card-title">Armaan</h5>
+                      <h5 class="card-title"> @<%= review.author.username %></h5>
                       <p class="card-text"><%=review.comment%> </p>
                       <p class="card-text"><%=review.rating%> Stars</p>
                       <form class="mb-3" action="/listings/<%= listing._id %>/reviews/<%= review._id %>?_method=DELETE" method="post">
