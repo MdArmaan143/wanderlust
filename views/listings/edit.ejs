@@ -16,13 +16,9 @@
                             required> <%=listing.description %></textarea>
                         <div class="invalid-feedback">Please enter a short description</div>
                     </div>
-                    <div class="mb-3">
-                        Original Listing Image  <br>
-                        <img src="<%=originalImageUrl %>" >
-                        
-
-
-
+                    <div class="mb-3 col-4">
+                        <label for="Originalimage" class="form-label">Original Image:</label>
+                        <img src="<%= originalImageUrl  %>" class="card-img-top show-img" alt="listing_image">
                     </div>
                     <div class="mb-3">
                         <label for="image" class="form-label"> Upload New Image </label>
