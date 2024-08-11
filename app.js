@@ -111,7 +111,9 @@ app.get("/", (req, res) => {
 });
 
 
-
+app.get("/",(req,res)=>{
+    res.send("hi,i am root");
+});
 
 app.all("*",(req,res,next)=>{
   next(new ExpressError(404,"Page Not Found!"));
