@@ -107,13 +107,11 @@ app.use("/",userRouter);
 
 let port = 8080;
 app.get("/", (req, res) => {
-  res.sendFile(path.join(__dirname, "public", "homepage.html"));
+  res.render("homepage.ejs");
 });
 
 
-app.get("/",(req,res)=>{
-    res.send("hi,i am root");
-});
+
 
 app.all("*",(req,res,next)=>{
   next(new ExpressError(404,"Page Not Found!"));
