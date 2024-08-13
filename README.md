@@ -15,7 +15,7 @@ Wanderlust is a feature-rich web application allowing users to explore, book, an
 # 1\. Frontend: - 
 - Html ,Css, javascript for a dynamic and responsive user interface
 - Bootstrap
-- Mapbox / Google Maps API
+- Mapbox 
 # 2\. Backend: - 
 - Node.js and Express.js for robust server-side functionality
 # 3\. Database: - 
@@ -24,7 +24,7 @@ MongoDB for scalable and flexible data management
 JWT (JSON Web Tokens)
 # Deployment: -
 Docker
-AWS 
+AWS / Render
 
 
 
