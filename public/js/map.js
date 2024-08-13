@@ -16,4 +16,4 @@
     .setHTML(`<h4>${listing.title}</h4> <p>Exact Location will be provided after booking!</p>`)
     .setMaxWidth("300px")
     .addTo(map))
-    .addTo(map);
+    .addTo(map);l
