@@ -31,8 +31,12 @@ main()
 .catch(err => console.log(err));
 
 async function main() {
-  await mongoose.connect(dbUrl);
-
+  await mongoose.connect(dbUrl, {
+    useNewUrlParser: true,
+    useUnifiedTopology: true,
+    serverSelectionTimeoutMS: 5000,
+    socketTimeoutMS: 45000,
+  });
 }
 app.set("view engine","ejs");
 app.set("views",path.join(__dirname,"views"));
