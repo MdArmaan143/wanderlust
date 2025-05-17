@@ -1,5 +1,5 @@
 # PROJECT_LINK
-- [wanderlust ](https://wanderlust-m1m3.onrender.com)
+- [wanderlust.com ](https://wanderlust-zfh6.onrender.com)
 
 # Wanderlust
 Wanderlust is a feature-rich web application allowing users to explore, book, and host unique accommodations around the world. Built with modern web technologies, Wanderlust provides an intuitive and responsive user experience.
