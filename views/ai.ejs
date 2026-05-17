@@ -1,0 +1,114 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Wander AI — Your Travel Assistant | Wanderlust</title>
+    <meta name="description" content="Chat with Wander AI, your personal AI travel assistant powered by Gemini. Get destination recommendations, travel tips, and property suggestions.">
+    <link rel="stylesheet" href="/css/style.css">
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/css/bootstrap.min.css" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.2/css/all.min.css">
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com/" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Montserrat:wght@300;400;500;600;700&family=Plus+Jakarta+Sans:wght@300;400;500;600&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="/css/ai.css">
+</head>
+<body class="ai-body">
+
+    <!-- Navbar -->
+    <%- include('./includes/navbar.ejs') %>
+
+    <!-- AI Chat Container -->
+    <main class="ai-main">
+        <!-- Sidebar -->
+        <aside class="ai-sidebar" id="aiSidebar">
+            <div class="ai-sidebar-header">
+                <div class="ai-logo-wrap">
+                    <div class="ai-logo-icon">✨</div>
+                    <div>
+                        <h5 class="ai-logo-title">Wander AI</h5>
+                        <span class="ai-logo-sub">Powered by Gemini 2.5 Pro</span>
+                    </div>
+                </div>
+            </div>
+            <button class="new-chat-btn" id="newChatBtn">
+                <i class="fa-solid fa-plus me-2"></i>New Chat
+            </button>
+
+            <div class="ai-sidebar-section">
+                <p class="sidebar-label">✈️ Suggested Topics</p>
+                <button class="suggestion-chip" data-prompt="What are the best travel destinations in India for a family trip with a budget of ₹3000 per night?">
+                    <i class="fa-solid fa-family me-1"></i> Family trips India
+                </button>
+                <button class="suggestion-chip" data-prompt="Suggest unique and offbeat stays — like treehouses, caves, or floating cottages — available in India.">
+                    <i class="fa-solid fa-tree me-1"></i> Unique stays
+                </button>
+                <button class="suggestion-chip" data-prompt="What are the top mountain retreats and Himalayan destinations for a peaceful getaway?">
+                    <i class="fa-solid fa-mountain me-1"></i> Mountain retreats
+                </button>
+                <button class="suggestion-chip" data-prompt="I'm planning a solo backpacking trip. What budget-friendly destinations and stays would you recommend?">
+                    <i class="fa-solid fa-person-hiking me-1"></i> Solo backpacking
+                </button>
+                <button class="suggestion-chip" data-prompt="What are the best beach destinations and beachside stays for a romantic couple getaway?">
+                    <i class="fa-solid fa-umbrella-beach me-1"></i> Romantic beach trip
+                </button>
+                <button class="suggestion-chip" data-prompt="What should I pack for a 7-day trip to the Himalayas in December?">
+                    <i class="fa-solid fa-suitcase me-1"></i> Packing guide
+                </button>
+                <button class="suggestion-chip" data-prompt="Tell me about glamping and camping experiences across India — what to expect and where to go.">
+                    <i class="fa-solid fa-campground me-1"></i> Glamping guide
+                </button>
+            </div>
+        </aside>
+
+        <!-- Chat Area -->
+        <section class="ai-chat-area" id="chatArea">
+            <!-- Welcome Screen -->
+            <div class="ai-welcome" id="aiWelcome">
+                <div class="welcome-glow"></div>
+                <div class="welcome-icon">✨</div>
+                <h1 class="welcome-title">Wander AI</h1>
+                <p class="welcome-subtitle">Your intelligent travel companion, powered by Gemini 2.5 Pro. Ask me anything about travel, stays, destinations, or let me plan your next adventure.</p>
+                <div class="welcome-chips">
+                    <button class="welcome-chip" data-prompt="Where should I travel in India this winter for a 5-day trip?">🌟 Where should I travel this winter?</button>
+                    <button class="welcome-chip" data-prompt="What are the most unique types of stays available on Wanderlust — treehouses, castles, boats?">🏰 What unique stays can I find?</button>
+                    <button class="welcome-chip" data-prompt="Plan a 5-day travel itinerary for Rajasthan, India.">🗺️ Plan a Rajasthan itinerary</button>
+                    <button class="welcome-chip" data-prompt="What are the top things to do in Goa, India for a first-time visitor?">🏖️ Top things to do in Goa</button>
+                </div>
+            </div>
+
+            <!-- Messages Container -->
+            <div class="ai-messages" id="aiMessages"></div>
+
+            <!-- Typing Indicator -->
+            <div class="typing-indicator" id="typingIndicator" style="display:none;">
+                <div class="typing-avatar">✨</div>
+                <div class="typing-dots">
+                    <span></span><span></span><span></span>
+                </div>
+                <span class="typing-label">Wander AI is thinking...</span>
+            </div>
+
+            <!-- Input Area -->
+            <div class="ai-input-area">
+                <div class="ai-input-wrap">
+                    <textarea 
+                        class="ai-textarea" 
+                        id="aiInput" 
+                        placeholder="Ask me about destinations, stays, travel tips..."
+                        rows="1"
+                        maxlength="2000"
+                    ></textarea>
+                    <button class="ai-send-btn" id="aiSendBtn" disabled>
+                        <i class="fa-solid fa-paper-plane"></i>
+                    </button>
+                </div>
+                <p class="ai-disclaimer">Wander AI can make mistakes. Verify important travel information before booking.</p>
+            </div>
+        </section>
+    </main>
+
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/js/bootstrap.bundle.min.js"></script>
+    <script src="/js/ai-chat.js"></script>
+</body>
+</html>

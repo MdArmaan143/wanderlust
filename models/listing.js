@@ -4,6 +4,8 @@ const Review = require("./review.js");
 const { ref } = require("joi");
 
 
+const CATEGORIES = ["Trending", "Rooms", "Iconic cities", "Mountains", "Castles", "Swimming pool", "Farm", "Camping", "Arctic", "Domes", "Boats"];
+
 const listingSchema = new schema ({
     title: {
         type: String,
@@ -17,6 +19,11 @@ const listingSchema = new schema ({
     price:Number,
     location: String,
     country: String,
+    category: {
+        type: String,
+        enum: CATEGORIES,
+        default: "Trending",
+    },
     reviews: [
         {
             type: schema.Types.ObjectId,

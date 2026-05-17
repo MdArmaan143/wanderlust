@@ -1,99 +1,469 @@
 <% layout('/layouts/boilerplate') %>
 
+  <style>
+    /* ── Filter Bar ── */
+    #filters {
+      display: flex;
+      flex-wrap: wrap;
+      align-items: center;
+      gap: 0;
+      border-bottom: 1px solid #e8e8e8;
+      padding-bottom: 0.75rem;
+      margin-bottom: 1rem;
+      position: relative;
+    }
 
-    
+    .filter {
+      text-align: center;
+      padding: 0.5rem 1.1rem;
+      opacity: 0.6;
+      cursor: pointer;
+      text-decoration: none;
+      color: inherit;
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      gap: 0.3rem;
+      border-bottom: 2.5px solid transparent;
+      transition: opacity 0.18s, border-color 0.18s;
+      white-space: nowrap;
+    }
+
+    .filter:hover {
+      opacity: 1;
+    }
+
+    .filter.active {
+      opacity: 1;
+      border-bottom: 2.5px solid #222;
+      font-weight: 600;
+    }
+
+    .filter i {
+      font-size: 1.4rem;
+    }
+
+    .filter p {
+      font-size: 0.75rem;
+      margin: 0;
+    }
+
+    /* ── Advanced Filter Panel ── */
+    .adv-filter-toggle {
+      margin-left: auto;
+      display: flex;
+      align-items: center;
+      gap: 0.4rem;
+      background: white;
+      border: 1.5px solid #ccc;
+      border-radius: 12px;
+      padding: 0.4rem 1rem;
+      font-size: 0.85rem;
+      font-weight: 600;
+      cursor: pointer;
+      transition: border-color 0.2s, box-shadow 0.2s;
+      white-space: nowrap;
+    }
+
+    .adv-filter-toggle:hover {
+      border-color: #222;
+      box-shadow: 0 2px 8px rgba(0, 0, 0, 0.1);
+    }
+
+    .adv-filter-panel {
+      background: white;
+      border: 1.5px solid #e0e0e0;
+      border-radius: 16px;
+      padding: 1.5rem;
+      margin-bottom: 1.5rem;
+      box-shadow: 0 4px 24px rgba(0, 0, 0, 0.07);
+      display: none;
+      animation: slideDown 0.2s ease;
+    }
+
+    .adv-filter-panel.show {
+      display: block;
+    }
+
+    @keyframes slideDown {
+      from {
+        opacity: 0;
+        transform: translateY(-8px);
+      }
+
+      to {
+        opacity: 1;
+        transform: translateY(0);
+      }
+    }
+
+    .adv-filter-panel h6 {
+      font-weight: 700;
+      margin-bottom: 0.75rem;
+      font-size: 0.9rem;
+    }
+
+    .price-range-row {
+      display: flex;
+      gap: 1rem;
+      align-items: center;
+      flex-wrap: wrap;
+    }
+
+    .price-input {
+      width: 140px;
+      border: 1.5px solid #ddd;
+      border-radius: 10px;
+      padding: 0.45rem 0.8rem;
+      font-size: 0.9rem;
+      transition: border-color 0.2s;
+    }
+
+    .price-input:focus {
+      border-color: #fe424d;
+      outline: none;
+    }
+
+    .country-select {
+      width: 200px;
+      border: 1.5px solid #ddd;
+      border-radius: 10px;
+      padding: 0.45rem 0.8rem;
+      font-size: 0.9rem;
+      transition: border-color 0.2s;
+    }
+
+    .country-select:focus {
+      border-color: #fe424d;
+      outline: none;
+    }
+
+    .apply-filter-btn {
+      background-color: #222;
+      color: white;
+      border: none;
+      border-radius: 10px;
+      padding: 0.5rem 1.2rem;
+      font-weight: 600;
+      font-size: 0.85rem;
+      cursor: pointer;
+      transition: background 0.2s;
+    }
+
+    .apply-filter-btn:hover {
+      background-color: #fe424d;
+    }
+
+    .clear-filter-btn {
+      background: transparent;
+      border: 1.5px solid #ccc;
+      border-radius: 10px;
+      padding: 0.5rem 1rem;
+      font-size: 0.85rem;
+      cursor: pointer;
+      transition: border-color 0.2s;
+    }
+
+    .clear-filter-btn:hover {
+      border-color: #fe424d;
+      color: #fe424d;
+    }
+
+    /* ── Results bar ── */
+    .results-bar {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      margin-bottom: 1rem;
+      flex-wrap: wrap;
+      gap: 0.5rem;
+    }
+
+    .results-count {
+      font-size: 0.9rem;
+      color: #555;
+    }
+
+    .active-tag {
+      display: inline-flex;
+      align-items: center;
+      gap: 0.3rem;
+      background: #f5f5f5;
+      border-radius: 20px;
+      padding: 0.25rem 0.75rem;
+      font-size: 0.8rem;
+      font-weight: 500;
+      color: #333;
+      margin-left: 0.5rem;
+    }
+
+    .active-tag .rm-tag {
+      cursor: pointer;
+      color: #888;
+      font-size: 1rem;
+      line-height: 1;
+    }
+
+    .active-tag .rm-tag:hover {
+      color: #fe424d;
+    }
+
+    /* ── Empty State ── */
+    .empty-state {
+      text-align: center;
+      padding: 5rem 2rem;
+      color: #888;
+    }
+
+    .empty-state i {
+      font-size: 3.5rem;
+      margin-bottom: 1rem;
+      color: #ddd;
+    }
+
+    .empty-state h4 {
+      color: #444;
+      font-weight: 700;
+    }
+
+    .empty-state p {
+      font-size: 0.95rem;
+    }
+
+    .empty-state a {
+      color: #fe424d;
+      font-weight: 600;
+      text-decoration: none;
+    }
+
+    .empty-state a:hover {
+      text-decoration: underline;
+    }
+
+    /* ── Card grid ── */
+    .listing-card {
+      border: none !important;
+      margin-bottom: 2rem;
+      transition: transform 0.18s;
+    }
+
+    .listing-card:hover {
+      transform: translateY(-3px);
+    }
+  </style>
+
+  <% 
+    // Build current query string (excluding category so each filter link is clean) 
+    function buildQuery(params) { 
+      const parts=[]; 
+      for (const [k, v] of Object.entries(params)) { 
+        if (v && v !=='' ) parts.push(`${k}=${encodeURIComponent(v)}`); 
+      } 
+      return parts.length ? '?' + parts.join('&') : '' ; 
+    } 
+    const base={ 
+      q: searchQuery, 
+      minPrice: minPrice, 
+      maxPrice: maxPrice, 
+      country: selectedCountry, 
+    }; 
+  %>
+
+    <!-- Filter Bar -->
     <div id="filters">
-      <div class="filter">
-       <div> <i class="fa-solid fa-fire"></i></div>  
-       <p>Trending</p> 
-       </div>
-       <div class="filter">
-        <div> <i class="fa-solid fa-bed"></i></div>  
-        <p>Rooms</p> 
-        </div>
-        <div class="filter" data-filter-property="Iconic cities">
-          <div><i class="fa-solid fa-mountain-city"></i></div>
-          <p> Iconic cities</p>
-        </div>
-        <div class="filter" data-filter-property="Mountains">
-          <div><i class="fa-solid fa-mountain-sun"></i></div>
-          <p> Mountains</p>
-        </div>
-        <div class="filter" data-filter-property="Castles">
-          <div><i class="fa-brands fa-fort-awesome"></i></div>
-          <p> Castles</p>
-        </div>
-        <div class="filter" data-filter-property="Swiming pool">
-          <div><i class="fa-solid fa-person-swimming"></i></div>
-          <p>Swiming pool</p>
-        </div>
-        <div class="filter" data-filter-property="Farm">
-          <div><i class="fa-solid fa-tractor"></i></div>
-          <p>Farm</p>
-        </div>
-        <div class="filter" data-filter-property="Camping">
-          <div><i class="fa-solid fa-campground"></i></div>
-          <p>Camping</p>
-        </div>
-      
-        <div class="filter"data-filter-property="Arctic">
-          <div><i class="fa-regular fa-snowflake"></i></div>
-          <p>Arctic </p>
-        </div>
-        <div class="filter"data-filter-property="Arctic">
-          <div><i class="fa-solid fa-igloo"></i></div>
-          <p>Domes </p>
-        </div>
-        <div class="filter"data-filter-property="Arctic">
-          <div><i class="fa-solid fa-ship"></i></div>
-          <p>Boats </p>
-        </div>
-        <div class="tax-toggle ">
-        <div class="form-check form-switch form-check-reverse">
-          <input class="form-check-input" type="checkbox" role="switch" id="flexSwitchCheckDefault">
-          <label class="form-check-label" for="flexSwitchCheckDefault">Display total after taxes </label>
-        </div>
-      </div>
-       
+
+      <a href="/listings<%= buildQuery({...base, category: ''}) %>"
+        class="filter <%= selectedCategory === '' ? 'active' : '' %>" title="All">
+        <i class="fa-solid fa-globe"></i>
+        <p>All</p>
+      </a>
+      <a href="/listings<%= buildQuery({...base, category: 'Trending'}) %>"
+        class="filter <%= selectedCategory === 'Trending' ? 'active' : '' %>">
+        <i class="fa-solid fa-fire"></i>
+        <p>Trending</p>
+      </a>
+      <a href="/listings<%= buildQuery({...base, category: 'Rooms'}) %>"
+        class="filter <%= selectedCategory === 'Rooms' ? 'active' : '' %>">
+        <i class="fa-solid fa-bed"></i>
+        <p>Rooms</p>
+      </a>
+      <a href="/listings<%= buildQuery({...base, category: 'Iconic cities'}) %>"
+        class="filter <%= selectedCategory === 'Iconic cities' ? 'active' : '' %>">
+        <i class="fa-solid fa-mountain-city"></i>
+        <p>Iconic cities</p>
+      </a>
+      <a href="/listings<%= buildQuery({...base, category: 'Mountains'}) %>"
+        class="filter <%= selectedCategory === 'Mountains' ? 'active' : '' %>">
+        <i class="fa-solid fa-mountain-sun"></i>
+        <p>Mountains</p>
+      </a>
+      <a href="/listings<%= buildQuery({...base, category: 'Castles'}) %>"
+        class="filter <%= selectedCategory === 'Castles' ? 'active' : '' %>">
+        <i class="fa-brands fa-fort-awesome"></i>
+        <p>Castles</p>
+      </a>
+      <a href="/listings<%= buildQuery({...base, category: 'Swimming pool'}) %>"
+        class="filter <%= selectedCategory === 'Swimming pool' ? 'active' : '' %>">
+        <i class="fa-solid fa-person-swimming"></i>
+        <p>Pool</p>
+      </a>
+      <a href="/listings<%= buildQuery({...base, category: 'Farm'}) %>"
+        class="filter <%= selectedCategory === 'Farm' ? 'active' : '' %>">
+        <i class="fa-solid fa-tractor"></i>
+        <p>Farm</p>
+      </a>
+      <a href="/listings<%= buildQuery({...base, category: 'Camping'}) %>"
+        class="filter <%= selectedCategory === 'Camping' ? 'active' : '' %>">
+        <i class="fa-solid fa-campground"></i>
+        <p>Camping</p>
+      </a>
+      <a href="/listings<%= buildQuery({...base, category: 'Arctic'}) %>"
+        class="filter <%= selectedCategory === 'Arctic' ? 'active' : '' %>">
+        <i class="fa-regular fa-snowflake"></i>
+        <p>Arctic</p>
+      </a>
+      <a href="/listings<%= buildQuery({...base, category: 'Domes'}) %>"
+        class="filter <%= selectedCategory === 'Domes' ? 'active' : '' %>">
+        <i class="fa-solid fa-igloo"></i>
+        <p>Domes</p>
+      </a>
+      <a href="/listings<%= buildQuery({...base, category: 'Boats'}) %>"
+        class="filter <%= selectedCategory === 'Boats' ? 'active' : '' %>">
+        <i class="fa-solid fa-ship"></i>
+        <p>Boats</p>
+      </a>
+
+      <!-- Advanced Filter Button -->
+      <button class="adv-filter-toggle ms-2" id="advFilterToggle" type="button">
+        <i class="fa-solid fa-sliders"></i> Filters
+        <% if (minPrice || maxPrice || selectedCountry) { %>
+          <span class="badge bg-danger ms-1"
+            style="font-size:0.65rem; border-radius:50%; padding:0.25rem 0.45rem;">●</span>
+          <% } %>
+      </button>
+
     </div>
 
-    <div class="row row-cols-lg-3 row-cols-md-2 row-cols-sm-1 mt-3">
-        <% for(let listing of allListings){ %>
-            <a href="/listings/<%=listing._id%>" class="listing-link">
-            <div class="card col listing-card" >
-                <img src="<%=listing.image.url %>" class="card-img-top" alt="listing_image" style="height: 20rem">
+    <!-- Advanced Filter Panel -->
+    <form id="advFilterForm" class="adv-filter-panel" action="/listings" method="GET">
+      <% if (searchQuery) { %><input type="hidden" name="q" value="<%= searchQuery %>">
+        <% } %>
+          <% if (selectedCategory) { %><input type="hidden" name="category" value="<%= selectedCategory %>">
+            <% } %>
+
+              <div class="row g-3 align-items-end">
+                <div class="col-auto">
+                  <h6><i class="fa-solid fa-indian-rupee-sign me-1"></i> Price Range (per night)</h6>
+                  <div class="price-range-row">
+                    <div>
+                      <label style="font-size:0.78rem; color:#666; display:block; margin-bottom:0.2rem;">Min ₹</label>
+                      <input type="number" name="minPrice" class="price-input" placeholder="0" value="<%= minPrice %>"
+                        min="0">
+                    </div>
+                    <span style="color:#aaa; font-size:1.2rem;">–</span>
+                    <div>
+                      <label style="font-size:0.78rem; color:#666; display:block; margin-bottom:0.2rem;">Max ₹</label>
+                      <input type="number" name="maxPrice" class="price-input" placeholder="Any" value="<%= maxPrice %>"
+                        min="0">
+                    </div>
+                  </div>
+                </div>
+                <div class="col-auto">
+                  <h6><i class="fa-solid fa-earth-americas me-1"></i> Country</h6>
+                  <select name="country" class="country-select">
+                    <option value="">All countries</option>
+                    <% for (let c of allCountries) { %>
+                      <option value="<%= c %>" <%=selectedCountry===c ? 'selected' : '' %>><%= c %>
+                      </option>
+                      <% } %>
+                  </select>
+                </div>
+                <div class="col-auto d-flex gap-2 align-items-end">
+                  <button type="submit" class="apply-filter-btn"><i class="fa-solid fa-check me-1"></i>Apply</button>
+                  <a href="/listings" class="clear-filter-btn text-decoration-none text-center"><i
+                      class="fa-solid fa-xmark me-1"></i>Clear</a>
+                </div>
+              </div>
+    </form>
+
+    <!-- Results Bar -->
+    <div class="results-bar">
+      <div class="results-count">
+        <% if (searchQuery || selectedCategory || minPrice || maxPrice || selectedCountry) { %>
+          <strong>
+            <%= resultCount %>
+          </strong> result<%= resultCount !==1 ? 's' : '' %>
+            <% if (searchQuery) { %>
+              for <strong>"<%= searchQuery %>"</strong>
+              <% } %>
+                <% if (selectedCategory) { %><span class="active-tag">
+                    <%= selectedCategory %> <a href="/listings<%= buildQuery({...base, category: ''}) %>" class="rm-tag"
+                        title="Remove">×</a>
+                  </span>
+                  <% } %>
+                    <% if (minPrice || maxPrice) { %><span class="active-tag">₹<%= minPrice || '0' %> – ₹<%= maxPrice
+                            || '∞' %> <a href="/listings<%= buildQuery({...base, minPrice: '', maxPrice: ''}) %>"
+                              class="rm-tag">×</a></span>
+                      <% } %>
+                        <% if (selectedCountry) { %><span class="active-tag">
+                            <%= selectedCountry %> <a href="/listings<%= buildQuery({...base, country: ''}) %>"
+                                class="rm-tag">×</a>
+                          </span>
+                          <% } %>
+                            <% } else { %>
+                              <strong>
+                                <%= resultCount %>
+                              </strong> stay<%= resultCount !==1 ? 's' : '' %> available
+                                <% } %>
+      </div>
+    </div>
+
+    <!-- Listings Grid -->
+    <% if (allListings.length===0) { %>
+      <div class="empty-state">
+        <i class="fa-solid fa-magnifying-glass"></i>
+        <h4>No stays found</h4>
+        <p>Try adjusting your search or filters to discover amazing places.</p>
+        <a href="/listings">Clear all filters →</a>
+      </div>
+      <% } else { %>
+        <div class="row row-cols-lg-3 row-cols-md-2 row-cols-sm-1 mt-2">
+          <% for(let listing of allListings){ %>
+            <a href="/listings/<%= listing._id %>" class="listing-link">
+              <div class="card col listing-card">
+                <img src="<%= listing.image.url %>" class="card-img-top" alt="<%= listing.title %>"
+                  style="height: 20rem; object-fit: cover;">
                 <div class="card-img-overlay"></div>
                 <div class="card-body">
-                  <p class="card-text"><b>
-                    <%= listing.title %></b>
-                  <br>
-                  <%= listing.price ? listing.price.toLocaleString("en-IN") : "N/A" %> /night
-                  <i class="tax-info">&nbsp; &nbsp; +18% GST</i>
-                
-                  
+                  <p class="card-text">
+                    <b>
+                      <%= listing.title %>
+                    </b>
+                    <% if (listing.location) { %><br><span style="color:#666; font-size:0.85rem;"><i
+                          class="fa-solid fa-location-dot me-1" style="color:#fe424d;"></i>
+                        <%= listing.location %>
+                          <% if (listing.country) { %>, <%= listing.country %>
+                              <% } %>
+                      </span>
+                      <% } %>
+                        <br>
+                        &#x20b9;<%= listing.price ? listing.price.toLocaleString("en-IN") : "N/A" %> /night
                   </p>
                 </div>
               </div>
             </a>
-              <% } %>
-    </div>
-    
+            <% } %>
+        </div>
+        <% } %>
 
-
-<script>
-let taxSwitch = document.getElementById("flexSwitchCheckDefault");
-taxSwitch.addEventListener("click",()=>{
-let taxInfo = document.getElementsByClassName("tax-info");
-for(info of taxInfo){
-  if(info.style.display != "inline"){
-  info.style.display = "inline";
-  }else{
-    info.style.display = "none";
-  }
-}
-});
-</script>
-
-
-
-
+          <script>
+            // Advanced filter panel toggle
+            const advBtn = document.getElementById("advFilterToggle");
+            const advPanel = document.getElementById("advFilterForm");
+<% if (minPrice || maxPrice || selectedCountry) { %>
+              advPanel.classList.add("show");
+<% } %>
+              advBtn.addEventListener("click", () => {
+                advPanel.classList.toggle("show");
+              });
+          </script>

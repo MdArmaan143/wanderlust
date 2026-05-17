@@ -45,6 +45,24 @@
                                 class="form-control" required>
                             <div class="invalid-feedback">Location should be valid</div>
                         </div>
+
+                        <div class="mb-3">
+                            <label for="category" class="form-label">Category</label>
+                            <select name="listing[category]" class="form-select">
+                                <option value="">Select a category</option>
+                                <option value="Trending" <%=listing.category==='Trending'?'selected':''%>>🔥 Trending</option>
+                                <option value="Rooms" <%=listing.category==='Rooms'?'selected':''%>>🛏️ Rooms</option>
+                                <option value="Iconic cities" <%=listing.category==='Iconic cities'?'selected':''%>>🏙️ Iconic cities</option>
+                                <option value="Mountains" <%=listing.category==='Mountains'?'selected':''%>>⛰️ Mountains</option>
+                                <option value="Castles" <%=listing.category==='Castles'?'selected':''%>>🏰 Castles</option>
+                                <option value="Swimming pool" <%=listing.category==='Swimming pool'?'selected':''%>>🏊 Swimming pool</option>
+                                <option value="Farm" <%=listing.category==='Farm'?'selected':''%>>🚜 Farm</option>
+                                <option value="Camping" <%=listing.category==='Camping'?'selected':''%>>⛺ Camping</option>
+                                <option value="Arctic" <%=listing.category==='Arctic'?'selected':''%>>❄️ Arctic</option>
+                                <option value="Domes" <%=listing.category==='Domes'?'selected':''%>>🛖 Domes</option>
+                                <option value="Boats" <%=listing.category==='Boats'?'selected':''%>>⛵ Boats</option>
+                            </select>
+                        </div>
                     </div>
                     <button class="btn btn-dark edit-btn mt-3">Edit</button>
                     <br><br>

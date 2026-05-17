@@ -2,15 +2,49 @@
 <script>
     const mapToken = "<%= process.env.MAP_TOKEN%>";
     const listing = <%- JSON.stringify(listing)%>;
-
 </script>
+
+<!-- AI Modal (listing-specific) -->
+<div class="ai-modal-overlay" id="aiModalOverlay">
+  <div class="ai-modal">
+    <div class="ai-modal-header">
+      <div class="ai-modal-header-icon">✨</div>
+      <div>
+        <h5>Ask Wander AI</h5>
+        <p>About: <%= listing.title %></p>
+      </div>
+      <button class="ai-modal-close" id="aiModalClose" title="Close">✕</button>
+    </div>
+    <div class="ai-modal-messages" id="modalMessages"></div>
+    <div class="ai-modal-input-wrap">
+      <textarea class="ai-modal-textarea" id="modalInput" rows="1" placeholder="Ask about this place, nearby activities, best time to visit..."></textarea>
+      <button class="ai-modal-send" id="modalSend" disabled>
+        <i class="fa-solid fa-paper-plane"></i>
+      </button>
+    </div>
+    <a href="/ai" class="open-full-chat-btn">Open full Wander AI chat →</a>
+  </div>
+</div>
+
+<!-- Ask AI FAB Button -->
+<button 
+  class="ask-ai-fab" 
+  id="askAiBtn"
+  data-title="<%= listing.title %>"
+  data-location="<%= listing.location %>"
+  data-country="<%= listing.country %>"
+  data-desc="<%= listing.description ? listing.description.substring(0,200) : '' %>"
+>
+  ✨ Ask AI about this place
+</button>
+
 <div class="row mt-3">
     <div class="col-8 offset-3">
-
-    <h3><%= listing.title %></h3>
-</div>
+      <h3><%= listing.title %></h3>
+    </div>
     <div class="card col-6 offset-3 show-card listing-card">
         <img src="<%= listing.image.url %>" class="card-img-top show-img" alt="listing_image">
+        <div class="card-img-overlay"></div>
         <div class="card-body">
             <% if(listing.owner){ %>
                 <p class="card-text mb-2">
@@ -110,5 +144,6 @@
     </div>
 </div>
 
-
+<link rel="stylesheet" href="/css/ai.css">
 <script src="/js/map.js"></script>
+<script src="/js/ai-chat.js"></script>
