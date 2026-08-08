@@ -34,7 +34,7 @@ if (aiInput) {
 }
 
 if (aiSendBtn) {
-  aiSendBtn.addEventListener("click", sendMessage);
+  aiSendBtn.addEventListener("click", () => sendMessage());
 }
 
 if (newChatBtn) {
@@ -64,12 +64,14 @@ document.querySelectorAll(".welcome-chip, .suggestion-chip").forEach((chip) => {
 });
 
 async function sendMessage(customMessage = null) {
-  const text = customMessage || (aiInput ? aiInput.value.trim() : "");
+  const text =
+    (typeof customMessage === "string" ? customMessage : null) ||
+    (aiInput ? aiInput.value.trim() : "");
   if (!text || isStreaming) return;
 
   // Hide welcome, show messages
   if (aiWelcome) aiWelcome.style.display = "none";
-  aiMessages.classList.add("has-messages");
+  if (aiMessages) aiMessages.classList.add("has-messages");
 
   // Add user message to UI
   appendMessage("user", text);
@@ -80,7 +82,7 @@ async function sendMessage(customMessage = null) {
   if (aiSendBtn) aiSendBtn.disabled = true;
 
   // Show typing
-  typingIndicator.style.display = "flex";
+  if (typingIndicator) typingIndicator.style.display = "flex";
   scrollToBottom(aiMessages);
 
   isStreaming = true;
@@ -98,7 +100,7 @@ async function sendMessage(customMessage = null) {
     }
 
     // Hide typing, create AI bubble for streaming
-    typingIndicator.style.display = "none";
+    if (typingIndicator) typingIndicator.style.display = "none";
     const aiMsgEl = appendMessage("ai", "");
     const bubbleEl = aiMsgEl.querySelector(".msg-bubble");
 
@@ -137,11 +139,11 @@ async function sendMessage(customMessage = null) {
 
   } catch (err) {
     console.error("Chat error:", err);
-    typingIndicator.style.display = "none";
+    if (typingIndicator) typingIndicator.style.display = "none";
     appendMessage("ai", "⚠️ Sorry, I'm having trouble connecting. Please try again.");
   } finally {
     isStreaming = false;
-    if (aiSendBtn) aiSendBtn.disabled = false;
+    if (aiSendBtn) aiSendBtn.disabled = aiInput ? aiInput.value.trim() === "" : false;
     scrollToBottom(aiMessages);
   }
 }
@@ -160,7 +162,7 @@ function appendMessage(role, text) {
 
   row.appendChild(avatar);
   row.appendChild(bubble);
-  aiMessages.appendChild(row);
+  if (aiMessages) aiMessages.appendChild(row);
   scrollToBottom(aiMessages);
   return row;
 }
